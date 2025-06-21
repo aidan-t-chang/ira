@@ -1,6 +1,33 @@
-.draggable {
+body {
+  background-color: black;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+}
+
+.columnbar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
   width: 25%;
-  min-height: 6.5em;
+  background-color: red;
+  overflow-y: scroll;
+  text-align: center;
+}
+
+.filler {
+  background-color: white;
+  width: 15%;
+  overflow-y: scroll;
+  margin: auto;
+}
+
+.draggable {
+  width: 15%;
+  min-height: 3.5em;
   margin: 1rem 0 0 1rem;
   background-color: #29e;
   color: white;
@@ -8,4 +35,18 @@
   padding: 4%;
   touch-action: none;
   user-select: none;
+}
+
+.dropzone {
+  border: 1px solid white;
+  border-radius: 5px;
+  position: absolute;
+  width: 45%;
+  height: 50%;
+  top: 250px;
+  left: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }
