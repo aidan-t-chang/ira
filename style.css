@@ -26,8 +26,8 @@ h1 {
 }
 
 .draggable {
-  width: 15%;
-  min-height: 3.5em;
+  width: 75px;
+  height: 75px;
   margin: 1rem 0 0 1rem;
   background-color: #29e;
   color: white;
@@ -35,6 +35,9 @@ h1 {
   padding: 4%;
   touch-action: none;
   user-select: none;
+  position: absolute;
+  right: 50px;
+  top: 25px;
 }
 
 .dropzone {

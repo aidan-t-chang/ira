@@ -6,7 +6,6 @@ let isDropped = false;
 interact('.draggable').draggable({
     listeners: {
         start (event) {
-            console.log(event.type, event.target);
             isDropped = false;
         },
         move (event) {
@@ -22,6 +21,23 @@ interact('.draggable').draggable({
                 event.target.style.transform = `translate(${position.x}px, ${position.y}px)`;
             }
         }
+    }
+})
+.on('move', function (event) {
+    var interaction = event.interaction;
+    if (interaction.pointerIsDown && !interaction.interacting()) {
+        position.x = 0;
+        position.y = 0;
+
+        var original = event.currentTarget,
+         clone = event.currentTarget.cloneNode(true);
+        document.body.appendChild(clone);
+        // position the clone to be at the original position
+        clone.style.position = 'absolute';
+        clone.style.right = '50px';
+        clone.style.top = '25px';
+
+        interaction.start({ name: 'drag'}, event.interactable, clone);
     }
 })
 
