@@ -25,7 +25,7 @@ interact('.draggable').draggable({
 })
 .on('move', function (event) {
     var interaction = event.interaction;
-    if (interaction.pointerIsDown && !interaction.interacting()) {
+    if (interaction.pointerIsDown && !interaction.interacting() && !event.currentTarget.classList.contains('cloned')) {
         position.x = 0;
         position.y = 0;
 
@@ -36,8 +36,15 @@ interact('.draggable').draggable({
         clone.style.position = 'absolute';
         clone.style.right = '50px';
         clone.style.top = '25px';
-
+        clone.classList.add('cloned');
         interaction.start({ name: 'drag'}, event.interactable, clone);
+    }
+    else if (interaction.pointerIsDown && !interaction.interacting() && event.currentTarget.classList.contains('cloned')) {
+        var matrix = new DOMMatrix(event.target.style.transform);
+        var x = matrix.m41;
+        var y = matrix.m42;
+        position.x = x;
+        position.y = y;
     }
 })
 
