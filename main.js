@@ -47,6 +47,11 @@ interact('.draggable').draggable({
         position.y = y;
     }
 })
+.on('doubletap', function (event) {
+    position.x = 0;
+    position.y = 0;
+    event.currentTarget.remove();
+})
 
 interact('.dropzone').dropzone({
     accept: '.draggable',
