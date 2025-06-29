@@ -18,7 +18,7 @@ interact('.draggable').draggable({
             if (!isDropped) {
                 position.x = 0;
                 position.y = 0;
-                event.target.style.transform = `translate(${position.x}px, ${position.y}px)`;
+                event.currentTarget.remove();
             }
         }
     }
@@ -32,6 +32,7 @@ interact('.draggable').draggable({
         var original = event.currentTarget,
          clone = event.currentTarget.cloneNode(true);
         document.body.appendChild(clone);
+        clone.classList.remove('original');
         // position the clone to be at the original position
         clone.style.position = 'absolute';
         clone.style.right = '50px';

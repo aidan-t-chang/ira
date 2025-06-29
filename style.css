@@ -36,11 +36,26 @@ h1 {
   touch-action: none;
   user-select: none;
   position: absolute;
+  cursor: grab;
+  mix-blend-mode: exclusion;
+}
+
+.original {
+  width: 75px;
+  height: 75px;
+  margin: 1rem 0 0 1rem;
+  background-color: #29e;
+  color: white;
+  border-radius: 0.75em;
+  padding: 4%;
+  touch-action: none;
+  user-select: none;
+  position: absolute;
   right: 50px;
   top: 25px;
   cursor: grab;
+  mix-blend-mode: normal;
 }
-
 .draggable:active {
   cursor: grabbing;
 }
