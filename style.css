@@ -2,6 +2,27 @@ body {
   background-color: black;
 }
 
+.main-area {
+  position: relative;
+  width: 75%;
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blend-container {
+  isolation: isolate;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.blend-container > * {
+  pointer-events: auto;
+}
+
 h1 {
   color: white;
   text-align: center;
@@ -11,11 +32,12 @@ h1 {
   position: absolute;
   top: 0;
   right: 0;
-  height: 100%;
+  height: 100vh;
   width: 25%;
   background-color: red;
   overflow-y: scroll;
   text-align: center;
+  z-index: 1;
 }
 
 .filler {
@@ -32,12 +54,13 @@ h1 {
   background-color: #29e;
   color: white;
   border-radius: 0.75em;
-  padding: 4%;
   touch-action: none;
   user-select: none;
   position: absolute;
   cursor: grab;
   mix-blend-mode: exclusion;
+  z-index: 1000;
+  font-size: 10px;
 }
 
 .original {
@@ -47,7 +70,6 @@ h1 {
   background-color: #29e;
   color: white;
   border-radius: 0.75em;
-  padding: 4%;
   touch-action: none;
   user-select: none;
   position: absolute;
@@ -60,14 +82,13 @@ h1 {
   cursor: grabbing;
 }
 
+/* scale for dimensions is 5x, which means 1 inch = 5 pixels */
 .dropzone {
   border: 1px solid white;
   border-radius: 5px;
-  position: absolute;
-  width: 45%;
-  height: 50%;
-  top: 250px;
-  left: 150px;
+  position: relative;
+  width: 1005px;
+  height: 685px;
   display: flex;
   align-items: center;
   justify-content: center;

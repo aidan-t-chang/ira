@@ -16,9 +16,11 @@ interact('.draggable').draggable({
         },
         end (event) {
             if (!isDropped) {
-                position.x = 0;
-                position.y = 0;
-                event.currentTarget.remove();
+                event.target.style.backgroundColor = 'red';
+            } else {
+                event.target.style.transform = `translate(${position.x}px, ${position.y}px)`;
+                event.target.style.backgroundColor = '#29e';
+                event.target.style.transitionDuration = '0.2s'
             }
         }
     }
@@ -31,12 +33,15 @@ interact('.draggable').draggable({
 
         var original = event.currentTarget,
          clone = event.currentTarget.cloneNode(true);
-        document.body.appendChild(clone);
+        document.querySelector('.main-area').appendChild(clone);
         clone.classList.remove('original');
-        // position the clone to be at the original position
+        var originalRect = original.getBoundingClientRect();
+        var blendContainerRect = document.querySelector('.main-area').getBoundingClientRect();
+        
         clone.style.position = 'absolute';
-        clone.style.right = '50px';
-        clone.style.top = '25px';
+        clone.style.left = (originalRect.left - blendContainerRect.left) + 'px';
+        clone.style.top = (originalRect.top - blendContainerRect.top) + 'px';
+        clone.style.right = 'auto'; // clear any existing right positioning
         clone.classList.add('cloned');
         interaction.start({ name: 'drag'}, event.interactable, clone);
     }
@@ -56,7 +61,7 @@ interact('.draggable').draggable({
 
 interact('.dropzone').dropzone({
     accept: '.draggable',
-    overlap: 0.75,
+    overlap: 1,
 
     listeners: {
         drop (event) {
