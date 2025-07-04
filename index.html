@@ -12,20 +12,31 @@
             </div>
         </div>
         <div class="columnbar">
-            <div class="draggable original">
-                Draggable element
+            <button class="open" id="openModal">Add Item</button>
+            <div class="draggable original bed">
+               Bed 
             </div>
-            <div class="filler">
-                this is filler material
-                <br>
-                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-                more text just to make sure
-                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-                some more text
-                <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <div class="draggable original desk">
+                Desk
+            </div>
+            <div class="draggable original wardrobe">
+               Wardrobe 
             </div>
         </div>
+        <div class="modal" id="modal">
+            <div class="modal-inner">
+                <h2 class="inside">Add Item</h2>
+                <div class="botton">
+                    
+                    <input type="number" id="length" placeholder="Enter length (in)">
+                    <input type="number" id="width" placeholder="Enter width (in)">
+                    <input type="text" id="name" placeholder="Enter name (optional)"><br>
+                    <button id="addItem">Add Item</button><br>
 
+                </div>
+                <button id="closeModal">Close</button>
+            </div>
+        </div>
         <script type="module" src="main.js"></script>
     </body>
 </html>

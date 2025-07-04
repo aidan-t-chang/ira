@@ -20,7 +20,6 @@ interact('.draggable').draggable({
             } else {
                 event.target.style.transform = `translate(${position.x}px, ${position.y}px)`;
                 event.target.style.backgroundColor = '#29e';
-                event.target.style.transitionDuration = '0.2s'
             }
         }
     }
@@ -78,3 +77,38 @@ interact('.dropzone').dropzone({
     }
 
 })
+
+const open = document.getElementById("openModal");
+const close = document.getElementById('closeModal');
+const modal = document.getElementById("modal");
+
+open.addEventListener('click', () => {
+    modal.classList.add("open");
+})
+
+close.addEventListener("click", () => {
+    modal.classList.remove("open");
+})
+
+function addItem() {
+    const length = document.getElementById("length").value;
+    const width = document.getElementById("width").value;
+    const name = document.getElementById("name").value;
+
+    if ((length <= 0) || (width <= 0) || (!length || !width)) {
+        alert("Please enter a valid length and width.");
+        return;
+    }
+
+    const newItem = document.createElement("div");
+    newItem.classList.add("draggable");
+    newItem.classList.add("original");
+    newItem.style.width = `${length * 5}px`;
+    newItem.style.height = `${width * 5}px`;
+    newItem.textContent = name ? name : `Item (${length} x ${width})`;
+
+    document.querySelector(".columnbar").appendChild(newItem);
+    modal.classList.remove("open");
+}
+
+document.getElementById("addItem").addEventListener("click", addItem);
