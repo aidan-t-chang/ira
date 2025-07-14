@@ -41,7 +41,6 @@ interact('.draggable').draggable({
     if (interaction.pointerIsDown && !interaction.interacting() && !event.currentTarget.classList.contains('cloned')) {
         position.x = 0;
         position.y = 0;
-
         var original = event.currentTarget,
          clone = event.currentTarget.cloneNode(true);
         document.querySelector('.main-area').appendChild(clone);
@@ -76,21 +75,17 @@ interact('.draggable').draggable({
 interact('.dropzone').dropzone({
     accept: '.draggable',
     overlap: 1,
-
     listeners: {
         drop (event) {
             isDropped = true;
         },
-
         dropactivate (event) {
             event.target.classList.add('drop-activated');
         },
-
         dropdeactivate (event) {
             event.target.classList.remove('drop-activated');
         }
     }
-
 })
 
 const open = document.getElementById("openModal");
@@ -173,13 +168,13 @@ function setRoom() {
         }
         else {
             // ptac and bathroom are on the left(bottom) side of the room
-            ptac.style.left = "auto";
+            ptac.style.left = 0;
             ptac.style.top = "auto";
-            ptac.style.right = 0;
+            ptac.style.right = "auto";
             ptac.style.bottom = 0;
-            bathroom.style.left = 0;
+            bathroom.style.left = "auto";
             bathroom.style.top = "auto";
-            bathroom.style.right = "auto";
+            bathroom.style.right = 0;
             bathroom.style.bottom = 0;
         }
     }
@@ -190,16 +185,16 @@ function setRoom() {
             ptac.style.top = "auto";
             ptac.style.right = "auto";
             ptac.style.bottom = 0;
-            bathroom.style.left = 0;
+            bathroom.style.left = "auto";
             bathroom.style.top = "auto";
-            bathroom.style.right = "auto";
+            bathroom.style.right = 0;
             bathroom.style.bottom = 0;
         }
         else {
             // ptac and bathroom are on the right(top) side of the room
-            ptac.style.left = "auto";
+            ptac.style.left = 0;
             ptac.style.top = 0;
-            ptac.style.right = 0;
+            ptac.style.right = "auto";
             ptac.style.bottom = "auto";
             bathroom.style.left = "auto";
             bathroom.style.top = 0;
@@ -212,3 +207,100 @@ function setRoom() {
 document.getElementById("addItem").addEventListener("click", addItem);
 document.getElementById('setRoom').addEventListener("click", setRoom);
 modal2.classList.add("open");
+
+function saveState() {
+    const dropzone = document.querySelector('.main-area');
+    const elements = dropzone.querySelectorAll('.draggable.cloned');
+    
+    const state = {
+        room: {
+            hall: document.getElementById('hall').value,
+            wing: document.getElementById('wing').value,
+            room: document.getElementById('room').value
+        },
+        elements: Array.from(elements).map(element => {
+            const matrix = new DOMMatrix(element.style.transform);
+            const rect = element.getBoundingClientRect();
+            console.log('Element:', element);
+            
+            return {
+                width: element.style.width,
+                height: element.style.height,
+                text: element.textContent,
+                transform: element.style.transform,
+                backgroundColor: element.style.backgroundColor,
+                left: element.style.left,
+                top: element.style.top,
+                right: element.style.right,
+                bottom: element.style.bottom,
+                x: matrix.m41,
+                y: matrix.m42,
+                rotation: Math.round(Math.atan2(matrix.b, matrix.a) * (180 / Math.PI)),
+                classes: Array.from(element.classList)
+            };
+        })
+    };
+    
+    console.log('State to be saved:', state);
+    const encodedState = btoa(JSON.stringify(state));
+    const shareableUrl = `${window.location.origin}${window.location.pathname}?state=${encodedState}`;
+    
+    navigator.clipboard.writeText(shareableUrl).then(() => {
+        alert('Shareable link copied to clipboard!');
+    }).catch(() => {
+        prompt('Copy this shareable link:', shareableUrl);
+    });
+}
+
+function loadStateFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    console.log('URL Parameters:', urlParams.toString());
+    const encodedState = urlParams.get('state');
+    console.log('Encoded State:', encodedState);
+    
+    if (!encodedState) return;
+    
+    try {
+        const state = JSON.parse(atob(encodedState));
+        console.log('Decoded State:', state);
+        if (state.room) {
+            document.getElementById('hall').value = state.room.hall;
+            document.getElementById('wing').value = state.room.wing;
+            document.getElementById('room').value = state.room.room;
+            setRoom(); 
+        }
+        
+        const existingClones = document.querySelectorAll('.draggable.cloned');
+        existingClones.forEach(clone => clone.remove());
+
+        const dropzone = document.querySelector('.main-area');
+        state.elements.forEach(elementData => {
+            const element = document.createElement('div');
+            
+            elementData.classes.forEach(className => {
+                element.classList.add(className);
+            });
+            
+            element.style.width = elementData.width;
+            element.style.height = elementData.height;
+            element.style.transform = elementData.transform;
+            element.style.backgroundColor = elementData.backgroundColor;
+            element.style.position = 'absolute';
+            element.style.left = elementData.left || 'auto';
+            element.style.top = elementData.top || 'auto';
+            element.style.right = elementData.right || 'auto';
+            element.style.bottom = elementData.bottom || 'auto';
+            element.textContent = elementData.text;
+            
+            dropzone.appendChild(element);
+        });
+        
+    } catch (error) {
+        console.error('Failed to load state from URL:', error);
+        alert('Invalid share link format');
+    }
+}
+
+document.getElementById('saveState').addEventListener('click', saveState);
+
+window.addEventListener('load', loadStateFromUrl);

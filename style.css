@@ -196,3 +196,11 @@ input {
   right: 20px;
   top: 90px;
 }
+
+.save-button {
+  position: absolute; 
+  width: 100px;
+  height: 33px;
+  right: 20px;
+  top: 130px;
+}
