@@ -1,4 +1,4 @@
-import interact from 'https://cdn.interactjs.io/v1.10.27/interact.min.js';
+import interact from 'https://cdn.jsdelivr.net/npm/interactjs@1.10.27/+esm';
 
 const position = { x: 0, y: 0 };
 let isDropped = false;
