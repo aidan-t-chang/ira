@@ -152,7 +152,61 @@ function setRoom() {
     const hall = document.getElementById('hall').value;
     const wing = document.getElementById('wing').value;
     const room = document.getElementById('room').value;
-    console.log(hall + wing + room);
+    const ptac = document.querySelector('.ptac');
+    const bathroom = document.querySelector('.bathroom');
+
+    if (!hall || !wing || !room) {
+        alert("Please enter a valid hall, wing, and room number.");
+        return;
+    }
+    if (wing === "B" || wing === "D") {
+        if ((10 <= room && room <= 13) || (20 <= room && room <= 24)) {
+            // ptac and bathroom are on the right(top) side of the room
+            ptac.style.left = 0;
+            ptac.style.top = 0;
+            ptac.style.right = "auto";
+            ptac.style.bottom = "auto";
+            bathroom.style.left = "auto";
+            bathroom.style.top = 0;
+            bathroom.style.right = 0;
+            bathroom.style.bottom = "auto";
+        }
+        else {
+            // ptac and bathroom are on the left(bottom) side of the room
+            ptac.style.left = "auto";
+            ptac.style.top = "auto";
+            ptac.style.right = 0;
+            ptac.style.bottom = 0;
+            bathroom.style.left = 0;
+            bathroom.style.top = "auto";
+            bathroom.style.right = "auto";
+            bathroom.style.bottom = 0;
+        }
+    }
+    else {
+        if ((10 <= room && room <= 13) || (20 <= room && room <= 24)) {
+            // ptac and bathroom are on the left(bottom) side of the room
+            ptac.style.left = 0;
+            ptac.style.top = "auto";
+            ptac.style.right = "auto";
+            ptac.style.bottom = 0;
+            bathroom.style.left = 0;
+            bathroom.style.top = "auto";
+            bathroom.style.right = "auto";
+            bathroom.style.bottom = 0;
+        }
+        else {
+            // ptac and bathroom are on the right(top) side of the room
+            ptac.style.left = "auto";
+            ptac.style.top = 0;
+            ptac.style.right = 0;
+            ptac.style.bottom = "auto";
+            bathroom.style.left = "auto";
+            bathroom.style.top = 0;
+            bathroom.style.right = 0;
+            bathroom.style.bottom = "auto";
+        }
+    }
 }
 
 document.getElementById("addItem").addEventListener("click", addItem);
