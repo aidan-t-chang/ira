@@ -11,14 +11,26 @@ interact('.draggable').draggable({
         move (event) {
             position.x += event.dx;
             position.y += event.dy;
+            var matrix = new DOMMatrix(event.target.style.transform);
+            var angle = Math.round(Math.atan2(matrix.b, matrix.a) * (180 / Math.PI));
 
-            event.target.style.transform = `translate(${position.x}px, ${position.y}px)`;
+            event.target.style.transform = `translate(${position.x}px, ${position.y}px) rotate(${angle}deg)`;
         },
         end (event) {
             if (!isDropped) {
                 event.target.style.backgroundColor = 'red';
+                var matrix = new DOMMatrix(event.target.style.transform);
+                var left = matrix.m41;
+                if (left >= -30) {
+                    position.x = 0;
+                    position.y = 0;
+                    event.target.remove();
+                }
             } else {
-                event.target.style.transform = `translate(${position.x}px, ${position.y}px)`;
+                var matrix = new DOMMatrix(event.target.style.transform);
+                var angle = Math.round(Math.atan2(matrix.b, matrix.a) * (180 / Math.PI));
+
+                event.target.style.transform = `translate(${position.x}px, ${position.y}px) rotate(${angle}deg)`;
                 event.target.style.backgroundColor = '#29e';
             }
         }
@@ -53,9 +65,12 @@ interact('.draggable').draggable({
     }
 })
 .on('doubletap', function (event) {
-    position.x = 0;
-    position.y = 0;
-    event.currentTarget.remove();
+    var matrix = new DOMMatrix(event.target.style.transform);
+    var angle = Math.round(Math.atan2(matrix.b, matrix.a) * (180 / Math.PI));
+    var x = matrix.m41;
+    var y = matrix.m42;
+    angle += 90;
+    event.currentTarget.style.transform = `translate(${x}px, ${y}px) rotate(${angle}deg)`;
 })
 
 interact('.dropzone').dropzone({
@@ -81,6 +96,12 @@ interact('.dropzone').dropzone({
 const open = document.getElementById("openModal");
 const close = document.getElementById('closeModal');
 const modal = document.getElementById("modal");
+const open2 = document.getElementById("openModal2");
+const close2 = document.getElementById('closeModal2');
+const modal2 = document.getElementById("modal2");
+const open3 = document.getElementById("openModal3");
+const close3 = document.getElementById('closeModal3');
+const modal3 = document.getElementById("modal3");
 
 open.addEventListener('click', () => {
     modal.classList.add("open");
@@ -88,6 +109,22 @@ open.addEventListener('click', () => {
 
 close.addEventListener("click", () => {
     modal.classList.remove("open");
+})
+
+open2.addEventListener('click', () => {
+    modal2.classList.add("open");
+})
+
+close2.addEventListener("click", () => {
+    modal2.classList.remove("open");
+})
+
+open3.addEventListener('click', () => {
+    modal3.classList.add("open");
+})
+
+close3.addEventListener("click", () => {
+    modal3.classList.remove("open");
 })
 
 function addItem() {
@@ -111,4 +148,13 @@ function addItem() {
     modal.classList.remove("open");
 }
 
+function setRoom() {
+    const hall = document.getElementById('hall').value;
+    const wing = document.getElementById('wing').value;
+    const room = document.getElementById('room').value;
+    console.log(hall + wing + room);
+}
+
 document.getElementById("addItem").addEventListener("click", addItem);
+document.getElementById('setRoom').addEventListener("click", setRoom);
+modal2.classList.add("open");

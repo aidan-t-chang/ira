@@ -8,11 +8,20 @@
         <h1 class="center">Aidan Chang's Room Arranger</h1>
         <div class="main-area">
             <div class="dropzone">
-                this is a dropzone
+                <div class="bathroom">
+                    bathroom
+                </div>
+                <div class="ptac">
+                    ptac
+                </div>
+                room
             </div>
+
         </div>
         <div class="columnbar">
-            <button class="open" id="openModal">Add Item</button>
+            <button class="add-button" id="openModal">Add Item</button>
+            <button class="tutorial-button" id="openModal2">Tutorial</button>
+            <button class="room-button" id="openModal3">Change Room</button>
             <div class="draggable original bed">
                Bed 
             </div>
@@ -25,16 +34,78 @@
         </div>
         <div class="modal" id="modal">
             <div class="modal-inner">
+                <button class="closebutton" id="closeModal">X</button>
                 <h2 class="inside">Add Item</h2>
                 <div class="botton">
-                    
                     <input type="number" id="length" placeholder="Enter length (in)">
                     <input type="number" id="width" placeholder="Enter width (in)">
                     <input type="text" id="name" placeholder="Enter name (optional)"><br>
                     <button id="addItem">Add Item</button><br>
-
                 </div>
-                <button id="closeModal">Close</button>
+            </div>
+        </div>
+        <div class="modal" id="modal2">
+            <div class="modal-inner">
+                <button class="closebutton" id="closeModal2">X</button>
+                <h2 class="inside">Tutorial</h2>
+                <div class="botton">
+                    <p class="text">double click an element to rotate it 90 degrees. if you need other rotations, you're weird</p>
+                    <p class="text">dragging an element back to the sidebar on the right will remove it</p>
+                    <p class="text">an element is red if it is outside the room</p>
+                    <p class="text"><strong>WARNING:</strong> i'm not 100% confident on if the room orientations (where the ptac and bathroom are) are the same for each hall.
+                    also, if you have an L room, sorry. i have no clue what they look like and what rooms they are. SORRY!</p>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="modal3">
+            <div class="modal-inner">
+                <button class="closebutton" id="closeModal3">X</button>
+                <h2 class="inside"><strong>UNDER CONSTRUCTION</strong></h2>
+                <h2 class="inside">Enter Room Number</h2>
+                <div class="botton">
+                    <select id="hall" name="hall">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                    </select>
+                    <select id="wing" name="wing">
+                        <option>A</option>
+                        <option>B</option>
+                        <option>C</option>
+                        <option>D</option>
+                    </select>
+                    <select id="room" name="room">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                        <option>13</option>
+                        <option>14</option>
+                        <option>15</option>
+                        <option>16</option>
+                        <option>17</option>
+                        <option>18</option>
+                        <option>19</option>
+                        <option>20</option>
+                        <option>21</option>
+                        <option>22</option>
+                        <option>23</option>
+                        <option>24</option>
+                    </select>
+                    <button id="setRoom">Set Room</button><br>
+                </div>
             </div>
         </div>
         <script type="module" src="main.js"></script>
