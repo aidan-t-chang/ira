@@ -246,10 +246,40 @@ function saveState() {
     const shareableUrl = `${window.location.origin}${window.location.pathname}?state=${encodedState}`;
     
     navigator.clipboard.writeText(shareableUrl).then(() => {
-        alert('Shareable link copied to clipboard!');
+        showCopyPopup();
     }).catch(() => {
         prompt('Copy this shareable link:', shareableUrl);
     });
+}
+
+function showCopyPopup() {
+    const existingPopup = document.querySelector('.copy-popup');
+    if (existingPopup) {
+        existingPopup.remove();
+    }
+    const popup = document.createElement('div');
+    popup.className = 'copy-popup';
+    popup.textContent = 'Link copied!';
+    
+    const saveButton = document.getElementById('saveState');
+    const buttonRect = saveButton.getBoundingClientRect();
+    const topBar = document.querySelector('.top-bar');
+    const topBarRect = topBar.getBoundingClientRect();
+    
+    const buttonCenterX = buttonRect.left + (buttonRect.width / 2) - topBarRect.left;
+    popup.style.left = (buttonCenterX - (popup.offsetWidth / 2)) + 'px';
+    popup.style.top = (buttonRect.bottom - topBarRect.top + 5) + 'px';
+    topBar.appendChild(popup);
+    
+    const popupWidth = popup.offsetWidth;
+    popup.style.left = (buttonCenterX - (popupWidth / 2)) + 'px';
+    
+    setTimeout(() => popup.classList.add('show'), 10);
+    
+    setTimeout(() => {
+        popup.classList.remove('show');
+        setTimeout(() => popup.remove(), 300);
+    }, 2000);
 }
 
 function loadStateFromUrl() {
