@@ -149,6 +149,8 @@ function setRoom() {
     const room = document.getElementById('room').value;
     const ptac = document.querySelector('.ptac');
     const bathroom = document.querySelector('.bathroom');
+    const door = document.querySelector('.door');
+    const cornerTriangle = document.querySelector('.corner-triangle');
 
     if (!hall || !wing || !room) {
         alert("Please enter a valid hall, wing, and room number.");
@@ -165,6 +167,16 @@ function setRoom() {
             bathroom.style.top = 0;
             bathroom.style.right = 0;
             bathroom.style.bottom = "auto";
+            door.style.left = "auto";
+            door.style.top = "auto";
+            door.style.right = 0;
+            door.style.bottom = "155px";
+            door.style.borderRadius = "0 0 0 100%";
+            cornerTriangle.style.left = "auto";
+            cornerTriangle.style.top = "auto";
+            cornerTriangle.style.right = 0;
+            cornerTriangle.style.bottom = 0;
+            cornerTriangle.style.rotate = "0deg";
         }
         else {
             // ptac and bathroom are on the left(bottom) side of the room
@@ -176,6 +188,16 @@ function setRoom() {
             bathroom.style.top = "auto";
             bathroom.style.right = 0;
             bathroom.style.bottom = 0;
+            door.style.borderRadius = "100% 0 0 0";
+            door.style.left = "auto";
+            door.style.top = "155px";
+            door.style.right = 0;
+            door.style.bottom = "auto";
+            cornerTriangle.style.left = "auto";
+            cornerTriangle.style.top = 0; 
+            cornerTriangle.style.right = 0;
+            cornerTriangle.style.bottom = "auto";
+            cornerTriangle.style.rotate = "-90deg";
         }
     }
     else {
@@ -189,6 +211,16 @@ function setRoom() {
             bathroom.style.top = "auto";
             bathroom.style.right = 0;
             bathroom.style.bottom = 0;
+            cornerTriangle.style.left = "auto";
+            cornerTriangle.style.top = 0; 
+            cornerTriangle.style.right = 0;
+            cornerTriangle.style.bottom = "auto";
+            cornerTriangle.style.rotate = "-90deg";
+            door.style.borderRadius = "100% 0 0 0";
+            door.style.left = "auto";
+            door.style.top = "155px";
+            door.style.right = 0;
+            door.style.bottom = "auto";
         }
         else {
             // ptac and bathroom are on the right(top) side of the room
@@ -200,6 +232,16 @@ function setRoom() {
             bathroom.style.top = 0;
             bathroom.style.right = 0;
             bathroom.style.bottom = "auto";
+            door.style.left = "auto";
+            door.style.top = "auto";
+            door.style.right = 0;
+            door.style.bottom = "155px";
+            door.style.borderRadius = "0 0 0 100%";
+            cornerTriangle.style.left = "auto";
+            cornerTriangle.style.top = "auto";
+            cornerTriangle.style.right = 0;
+            cornerTriangle.style.bottom = 0;
+            cornerTriangle.style.rotate = "0deg";
         }
     }
 }

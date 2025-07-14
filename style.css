@@ -133,7 +133,6 @@ h1 {
 /* scale for dimensions is 5x, which means 1 inch = 5 pixels */
 .dropzone {
   border: 1px solid white;
-  border-radius: 5px;
   position: relative;
   width: 1005px;
   height: 685px;
@@ -230,4 +229,24 @@ input {
   left: 0;
   top: 0;
   background-color: blue;
+}
+
+.door {
+  width: 150px;
+  height: 150px;
+  background-color: blue;
+  position: absolute;
+  right: 0;
+  bottom: 155px;
+  border-radius: 0 0 0 100%;
+}
+
+.corner-triangle {
+  width: 0;
+  height: 0;
+  border-left: 70px solid transparent;
+  border-bottom: 70px solid blue;
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
