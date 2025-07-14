@@ -1,4 +1,4 @@
-import interact from 'interactjs';
+import interact from 'https://cdn.interactjs.io/v1.10.27/interact.min.js';
 
 const position = { x: 0, y: 0 };
 let isDropped = false;
@@ -139,7 +139,7 @@ function addItem() {
     newItem.style.height = `${width * 5}px`;
     newItem.textContent = name ? name : `Item (${length} x ${width})`;
 
-    document.querySelector(".columnbar").appendChild(newItem);
+    document.querySelector(".scrollable-content").appendChild(newItem);
     modal.classList.remove("open");
 }
 
