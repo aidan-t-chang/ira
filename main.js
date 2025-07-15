@@ -2,6 +2,24 @@ import interact from 'https://cdn.jsdelivr.net/npm/interactjs@1.10.27/+esm';
 
 const position = { x: 0, y: 0 };
 let isDropped = false;
+const vwidth = window.innerWidth;
+const vheight = window.innerHeight;
+const roomLength = 137;
+const roomWidth = 201;
+const bedLength = 85;
+const bedWidth = 38.75;
+const deskLength = 48;
+const deskWidth = 24.25;
+const wardLength = 38.25;
+const wardWidth = 25.25;
+const ptacLength = 20;
+const ptacWidth = 62;
+const doorLength = 30;
+const doorWidth = 30;
+const bathroomLength = 76;
+const bathroomWidth = 26;
+const cornerTriangleLength = 14;
+const cornerTriangleWidth = 14;
 
 interact('.draggable').draggable({
     listeners: {
@@ -263,7 +281,6 @@ function saveState() {
         elements: Array.from(elements).map(element => {
             const matrix = new DOMMatrix(element.style.transform);
             const rect = element.getBoundingClientRect();
-            console.log('Element:', element);
             
             return {
                 width: element.style.width,
@@ -283,7 +300,6 @@ function saveState() {
         })
     };
     
-    console.log('State to be saved:', state);
     const encodedState = btoa(JSON.stringify(state));
     const shareableUrl = `${window.location.origin}${window.location.pathname}?state=${encodedState}`;
     
@@ -326,15 +342,12 @@ function showCopyPopup() {
 
 function loadStateFromUrl() {
     const urlParams = new URLSearchParams(window.location.search);
-    console.log('URL Parameters:', urlParams.toString());
     const encodedState = urlParams.get('state');
-    console.log('Encoded State:', encodedState);
     
     if (!encodedState) return;
     
     try {
         const state = JSON.parse(atob(encodedState));
-        console.log('Decoded State:', state);
         if (state.room) {
             document.getElementById('hall').value = state.room.hall;
             document.getElementById('wing').value = state.room.wing;
@@ -376,3 +389,27 @@ function loadStateFromUrl() {
 document.getElementById('saveState').addEventListener('click', saveState);
 
 window.addEventListener('load', loadStateFromUrl);
+
+console.log(window.innerWidth, window.innerHeight);
+
+function setEverythingDimensions() {
+    const scale = Math.floor(vwidth / 440);
+    console.log(scale);
+    // 1 in = (scale) px
+    const bathroom = document.querySelector('.bathroom');
+    const ptac = document.querySelector('.ptac');
+    const cornerTriangle = document.querySelector('.corner-triangle');
+    const door = document.querySelector('.door');
+    const bed = document.querySelector('.bed');
+    const desk = document.querySelector('.desk');
+    const ward = document.querySelector('.wardrobe');
+    var to_scale = [bathroom, ptac, cornerTriangle, door, bed, desk, ward];
+
+   to_scale.forEach(element => {
+       element.style.width = `${element.width * scale}px`;
+       element.style.height = `${element.height * scale}px`;
+   });
+}
+
+setEverythingDimensions();
+setRoom();
