@@ -2,8 +2,8 @@ import interact from 'https://cdn.jsdelivr.net/npm/interactjs@1.10.27/+esm';
 
 const position = { x: 0, y: 0 };
 let isDropped = false;
-const vwidth = window.innerWidth;
-const vheight = window.innerHeight;
+var vwidth = window.innerWidth;
+var vheight = window.innerHeight;
 const roomLength = 137;
 const roomWidth = 201;
 const bedLength = 85;
@@ -20,6 +20,7 @@ const bathroomLength = 76;
 const bathroomWidth = 26;
 const cornerTriangleLength = 14;
 const cornerTriangleWidth = 14;
+var globalScale;
 
 interact('.draggable').draggable({
     listeners: {
@@ -169,6 +170,9 @@ function setRoom() {
     const bathroom = document.querySelector('.bathroom');
     const door = document.querySelector('.door');
     const cornerTriangle = document.querySelector('.corner-triangle');
+    const bathroomScaled = bathroomLength * globalScale;
+    const doorScaled = doorLength * globalScale;
+    const roomScaled = roomLength * globalScale;
 
     if (!hall || !wing || !room) {
         alert("Please enter a valid hall, wing, and room number.");
@@ -186,9 +190,9 @@ function setRoom() {
             bathroom.style.right = 0;
             bathroom.style.bottom = "auto";
             door.style.left = "auto";
+            door.style.bottom = `${roomScaled - bathroomScaled - doorScaled}px`;
             door.style.top = "auto";
             door.style.right = 0;
-            door.style.bottom = "155px";
             door.style.borderRadius = "0 0 0 100%";
             cornerTriangle.style.left = "auto";
             cornerTriangle.style.top = "auto";
@@ -208,9 +212,9 @@ function setRoom() {
             bathroom.style.bottom = 0;
             door.style.borderRadius = "100% 0 0 0";
             door.style.left = "auto";
-            door.style.top = "155px";
             door.style.right = 0;
             door.style.bottom = "auto";
+            door.style.top = `${roomScaled - bathroomScaled - doorScaled}px`;
             cornerTriangle.style.left = "auto";
             cornerTriangle.style.top = 0; 
             cornerTriangle.style.right = 0;
@@ -236,8 +240,8 @@ function setRoom() {
             cornerTriangle.style.rotate = "-90deg";
             door.style.borderRadius = "100% 0 0 0";
             door.style.left = "auto";
-            door.style.top = "155px";
             door.style.right = 0;
+            door.style.top = `${roomScaled - bathroomScaled - doorScaled}px`;
             door.style.bottom = "auto";
         }
         else {
@@ -251,9 +255,9 @@ function setRoom() {
             bathroom.style.right = 0;
             bathroom.style.bottom = "auto";
             door.style.left = "auto";
-            door.style.top = "auto";
             door.style.right = 0;
-            door.style.bottom = "155px";
+            door.style.top = "auto";
+            door.style.bottom = `${roomScaled - bathroomScaled - doorScaled}px`;
             door.style.borderRadius = "0 0 0 100%";
             cornerTriangle.style.left = "auto";
             cornerTriangle.style.top = "auto";
@@ -393,9 +397,11 @@ window.addEventListener('load', loadStateFromUrl);
 console.log(window.innerWidth, window.innerHeight);
 
 function setEverythingDimensions() {
-    const scale = Math.floor(vwidth / 440);
+    const scale = Math.max(Math.floor(vwidth / 350), 0);
+    globalScale = scale;
     console.log(scale);
     // 1 in = (scale) px
+    const room = document.querySelector('.dropzone');
     const bathroom = document.querySelector('.bathroom');
     const ptac = document.querySelector('.ptac');
     const cornerTriangle = document.querySelector('.corner-triangle');
@@ -403,12 +409,45 @@ function setEverythingDimensions() {
     const bed = document.querySelector('.bed');
     const desk = document.querySelector('.desk');
     const ward = document.querySelector('.wardrobe');
-    var to_scale = [bathroom, ptac, cornerTriangle, door, bed, desk, ward];
+    var to_scale = [room, bathroom, ptac, cornerTriangle, door, bed, desk, ward];
+    
+    for (let i = 0; i < to_scale.length; i++) {
+        const element = to_scale[i];
+        // console.log(element);
+        if (element.classList.contains('bathroom')) {
+            element.style.width = `${bathroomWidth * scale}px`;
+            element.style.height = `${bathroomLength * scale}px`;
+        } else if (element.classList.contains('ptac')) {
+            element.style.width = `${ptacWidth * scale}px`;
+            element.style.height = `${ptacLength * scale}px`;
+        } else if (element.classList.contains('corner-triangle')) {
+            element.style.borderLeft = `${cornerTriangleWidth * scale}px solid transparent`;
+            element.style.borderBottom = `${cornerTriangleLength * scale}px solid blue`;
+        } else if (element.classList.contains('door')) {
+            element.style.width = `${doorLength * scale}px`;
+            element.style.height = `${doorLength * scale}px`;
+            var h = bathroom.style.height;
+            var r = room.style.height;
+            var rValue = parseInt(r);
+            var hValue = parseInt(h);
+            var news = rValue - hValue - (doorLength * scale);
 
-   to_scale.forEach(element => {
-       element.style.width = `${element.width * scale}px`;
-       element.style.height = `${element.height * scale}px`;
-   });
+            // element.style.top = `${news}px`;
+            // element.style.bottom = 'auto';
+        } else if (element.classList.contains('bed')) {
+            element.style.width = `${bedWidth * scale}px`;
+            element.style.height = `${bedLength * scale}px`;
+        } else if (element.classList.contains('desk')) {
+            element.style.width = `${deskWidth * scale}px`;
+            element.style.height = `${deskLength * scale}px`;
+        } else if (element.classList.contains('wardrobe')) {
+            element.style.width = `${wardWidth * scale}px`;
+            element.style.height = `${wardLength * scale}px`;
+        } else if (element.classList.contains('dropzone')) {
+            element.style.width = `${roomWidth * scale}px`;
+            element.style.height = `${roomLength * scale}px`;
+        }
+    }
 }
 
 setEverythingDimensions();
